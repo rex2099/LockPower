@@ -5,7 +5,8 @@ script_dir=${0:A:h}
 delay_seconds=${1:-120}
 label='io.github.lockpower.agent'
 install_dir="$HOME/Library/Application Support/LockPower"
-binary_path="$install_dir/LockPower"
+app_path="$install_dir/LockPower.app"
+binary_path="$app_path/Contents/MacOS/LockPower"
 agent_dir="$HOME/Library/LaunchAgents"
 agent_file="$agent_dir/${label}.plist"
 log_file="$HOME/Library/Logs/LockPower.log"
@@ -39,7 +40,7 @@ stage_agent="$stage_dir/${label}.plist"
 /usr/libexec/PlistBuddy -c "Add :EnvironmentVariables:LOCKPOWER_DELAY_SECONDS string $delay_seconds" "$stage_agent"
 /usr/libexec/PlistBuddy -c 'Add :RunAtLoad bool true' "$stage_agent"
 /usr/libexec/PlistBuddy -c 'Add :KeepAlive bool true' "$stage_agent"
-/usr/libexec/PlistBuddy -c 'Add :ProcessType string Background' "$stage_agent"
+/usr/libexec/PlistBuddy -c 'Add :ProcessType string Interactive' "$stage_agent"
 /usr/libexec/PlistBuddy -c "Add :StandardOutPath string $log_file" "$stage_agent"
 /usr/libexec/PlistBuddy -c "Add :StandardErrorPath string $log_file" "$stage_agent"
 /usr/libexec/PlistBuddy -c 'Add :ThrottleInterval integer 10' "$stage_agent"
@@ -55,7 +56,8 @@ stage_sudoers="$stage_dir/lockpower.sudoers"
 
 /bin/launchctl bootout "$domain" "$agent_file" 2>/dev/null || true
 /bin/mkdir -p "$install_dir" "$agent_dir" "$HOME/Library/Logs"
-/usr/bin/install -m 0755 "$script_dir/build/LockPower" "$binary_path"
+/bin/rm -rf "$app_path"
+/usr/bin/ditto "$script_dir/build/LockPower.app" "$app_path"
 /usr/bin/install -m 0755 "$script_dir/status.sh" "$install_dir/status.sh"
 /usr/bin/install -m 0755 "$script_dir/uninstall.sh" "$install_dir/uninstall.sh"
 /usr/bin/install -m 0644 "$stage_agent" "$agent_file"

@@ -5,6 +5,18 @@ or the display sleeps, then restores full performance as soon as you unlock.
 It is designed for always-on Apple silicon desktops such as Mac mini and Mac
 Studio that still need to remain reachable for remote access.
 
+The menu bar icon shows the current state without polling:
+
+- bolt: full performance
+- clock: waiting for the configured lock delay
+- leaf: Low Power Mode is on
+- pause: automation is paused
+- warning: a power-mode command failed
+
+The menu also provides manual enable/restore controls, a pause switch, and a
+shortcut to the local log. The status text is refreshed only when macOS sends
+an event or when the menu is opened.
+
 ## Why
 
 An idle Apple silicon Mac is already efficient. The useful part of LockPower is
