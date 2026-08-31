@@ -23,13 +23,13 @@ the screen is locked.
 ```sh
 git clone https://github.com/rex2099/LockPower.git
 cd LockPower
-./install.sh
+zsh install.sh
 ```
 
 The default delay is 120 seconds. To use a different delay:
 
 ```sh
-./install.sh 300
+zsh install.sh 300
 ```
 
 Allowed values are 1 through 3600 seconds. Running the installer again updates
@@ -67,8 +67,8 @@ The installer grants passwordless access to exactly two `pmset` commands. See
 ## Build and test
 
 ```sh
-./build.sh
-./tests/test.sh
+zsh build.sh
+zsh tests/test.sh
 ```
 
 The project is a small native Objective-C program. It uses only macOS system
