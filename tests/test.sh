@@ -16,6 +16,10 @@ done
 /bin/zsh "$project_dir/build.sh"
 "$project_dir/build/LockPower" --version
 "$project_dir/build/LockPower" --self-test
+/usr/bin/plutil -lint "$project_dir/build/LockPower.app/Contents/Info.plist"
+[[ "$(/usr/libexec/PlistBuddy -c 'Print :LSUIElement' "$project_dir/build/LockPower.app/Contents/Info.plist")" == 'true' ]]
+[[ -x "$project_dir/build/LockPower.app/Contents/MacOS/LockPower" ]]
+/usr/bin/codesign --verify "$project_dir/build/LockPower.app"
 
 if command -v rg >/dev/null 2>&1; then
     private_matches=$(rg -n 'rexsatonaka|/Volumes/External|CodexProjects' "$project_dir" \
